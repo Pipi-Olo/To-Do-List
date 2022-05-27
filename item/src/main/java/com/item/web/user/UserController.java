@@ -36,7 +36,12 @@ public class UserController {
             return "user/addUserForm";
         }
 
-        userService.save(saveForm);
+        try {
+            userService.save(saveForm);
+        } catch (Exception ex) {
+            bindingResult.reject("globalError", ex.getMessage());
+            return "user/addUserForm";
+        }
 
         return "redirect:/login";
     }
