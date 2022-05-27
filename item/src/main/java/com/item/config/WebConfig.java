@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -17,22 +17,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class WebConfig extends WebSecurityConfigurerAdapter {
 
     private final UserService userService;
-
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-        web.ignoring().requestMatchers(PathRequest.toH2Console());
-    }
+    private final AuthenticationFailureHandler failureHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http.authorizeHttpRequests()
+                .requestMatchers(PathRequest.toH2Console()).permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/login", "/users/add").permitAll()
                 .anyRequest().authenticated();
 
         http.formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/")
+                .failureHandler(failureHandler);
 
         http.logout()
                 .logoutUrl("/logout")
