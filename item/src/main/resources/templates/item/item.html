@@ -39,12 +39,31 @@
 
   <hr class="my-4">
 
+  <table th:if="${not #lists.isEmpty(item.comments)}" class="table table-bordered">
+    <caption>Comments</caption>
+    <tr>
+      <th>Message</th>
+      <th>By</th>
+    </tr>
+    <tr th:each="post : ${item.comments}">
+      <td th:text="${post.message}">Message</td>
+      <td th:text="${post.username}">By</td>
+    </tr>
+  </table>
+
+  <hr class="my-4">
+
   <div class="row">
     <div class="col">
       <button class="w-100 btn btn-primary btn-lg"
               onclick="location.href='editForm.html'"
               th:onclick="|location.href='@{/items/{itemId}/edit(itemId=${item.id})}'|"
               type="button">상품 수정</button>
+    </div>
+    <div class="col">
+      <button class="w-100 btn btn-primary btn-lg"
+              th:onclick="|location.href='@{/items/{itemId}/comments/add(itemId=${item.id})}'|"
+              type="button">댓글 달기</button>
     </div>
     <div class="col">
       <button class="w-100 btn btn-secondary btn-lg"
