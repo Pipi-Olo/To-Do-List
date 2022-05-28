@@ -1,13 +1,12 @@
 package com.item.domain.user;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-@Setter @Getter
+@Data
 public class User implements UserDetails {
 
     private Long id;
@@ -17,7 +16,6 @@ public class User implements UserDetails {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
-
     }
 
     public void update(User updateParam) {

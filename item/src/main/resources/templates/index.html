@@ -21,7 +21,7 @@
     </div>
     <div class="col">
       <button sec:authorize="isAnonymous()"
-              class="w-100 btn btn-dark btn-lg"
+              class="w-100 btn btn-primary btn-lg"
               th:onclick="|location.href='@{/login}'|" type="button">
         로그인
       </button>
@@ -35,7 +35,7 @@
     </div>
     <div class="col">
       <button sec:authorize="isAuthenticated()"
-              class="w-100 btn btn-dark btn-lg"
+              class="w-100 btn btn-primary btn-lg"
               th:onclick="|location.href='@{/items}'|" type="button">
         상품 관리
       </button>

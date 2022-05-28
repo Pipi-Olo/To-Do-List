@@ -2,11 +2,12 @@ package com.item.web.item;
 
 import com.item.domain.item.Item;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotBlank;
 
-@Data
+@Data @NoArgsConstructor
 public class ItemSaveForm implements ItemRequestForm {
 
     @NotBlank
@@ -18,9 +19,6 @@ public class ItemSaveForm implements ItemRequestForm {
     @Range(min = 0, max = 10000)
     private Integer quantity;
 
-    public ItemSaveForm() {
-    }
-
     public ItemSaveForm(String itemName, Integer price, Integer quantity) {
         this.itemName = itemName;
         this.price = price;
@@ -28,6 +26,6 @@ public class ItemSaveForm implements ItemRequestForm {
     }
 
     public Item toEntity() {
-        return new Item(0L, itemName, price, quantity);
+        return new Item(itemName, price, quantity);
     }
 }

@@ -79,12 +79,6 @@ public class ItemController {
         return "redirect:/items/{itemId}";
     }
 
-    @PostConstruct
-    public void init() {
-        itemService.save(new ItemSaveForm("ItemA", 10000, 10));
-        itemService.save(new ItemSaveForm("ItemB", 20000, 20));
-    }
-
     public void validate(ItemRequestForm requestForm, BindingResult bindingResult) {
         if (requestForm.getPrice() != null && requestForm.getQuantity() != null) {
             int totalPrice = requestForm.getPrice() * requestForm.getQuantity();
@@ -93,5 +87,11 @@ public class ItemController {
                 bindingResult.reject("globalError", "가격 * 수량의 값은 10000 초과이어야 합니다. 현재 값 = " + totalPrice); // ObjectError
             }
         }
+    }
+
+    @PostConstruct
+    public void init() {
+        itemService.save(new ItemSaveForm("ItemA", 10000, 10));
+        itemService.save(new ItemSaveForm("ItemB", 20000, 20));
     }
 }
