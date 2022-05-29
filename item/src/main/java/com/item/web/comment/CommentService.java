@@ -5,16 +5,14 @@ import com.item.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-
 @RequiredArgsConstructor
 @Service
 public class CommentService {
 
     private final ItemRepository itemRepository;
 
-    public void save(Long itemId, CommentSaveForm saveForm, Principal principal) {
+    public void save(Long itemId, CommentSaveForm saveForm, String username) {
         Item findItem = itemRepository.findById(itemId);
-        findItem.addComment(saveForm.toEntity(principal.getName()));
+        findItem.addComment(saveForm.toEntity(username));
     }
 }

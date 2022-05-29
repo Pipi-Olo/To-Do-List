@@ -35,7 +35,7 @@ public class CommentController {
             return "item/item";
         }
 
-        commentService.save(itemId, saveForm, principal);
+        commentService.save(itemId, saveForm, principal.getName());
 
         return "redirect:/items/{itemId}";
     }
