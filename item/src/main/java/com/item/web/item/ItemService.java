@@ -1,7 +1,7 @@
 package com.item.web.item;
 
 import com.item.domain.item.Item;
-import com.item.domain.item.ItemRepositoryV2;
+import com.item.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    private final ItemRepositoryV2 itemRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
     public Item save(ItemSaveForm saveForm) {
