@@ -19,8 +19,7 @@ public class CommentService {
     public void save(Long itemId, CommentSaveForm saveForm, String username) {
         Item findItem = itemRepository.findById(itemId).get();
 
-        Comment comment = saveForm.toEntity(username);
-        comment.setItem(findItem);
+        Comment comment = saveForm.toEntity(username, findItem);
         findItem.addComment(comment);
 
         commentRepository.save(comment);

@@ -1,6 +1,7 @@
 package com.item.web.comment;
 
 import com.item.domain.comment.Comment;
+import com.item.domain.item.Item;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ public class CommentSaveForm {
     @NotBlank
     private String message;
 
-    public Comment toEntity(String username) {
-        return new Comment(message, username);
+    public Comment toEntity(String username, Item item) {
+        return new Comment(message, username, item);
     }
 }

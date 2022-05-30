@@ -1,13 +1,15 @@
 package com.item.domain.comment;
 
 import com.item.domain.item.Item;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Data
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Comment {
 
@@ -24,15 +26,10 @@ public class Comment {
     @ManyToOne
     private Item item;
 
-    public Comment(String message, String username) {
+    public Comment(String message, String username, Item item) {
         this.message = message;
         this.username = username;
-    }
-
-    public Comment(Long id, String message, String username) {
-        this.id = id;
-        this.message = message;
-        this.username = username;
+        this.item = item;
     }
 
     public void update(Comment update) {
