@@ -1,5 +1,7 @@
 package com.item.web.item;
 
+import com.item.domain.comment.Comment;
+import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public Item save(ItemSaveForm saveForm) {
@@ -33,6 +36,17 @@ public class ItemService {
     public void update(Long itemId, ItemUpdateForm updateForm) {
         Item findItem = itemRepository.findById(itemId).get();
         findItem.update(updateForm.toEntity());
+    }
+
+    @Transactional
+    public void delete(Long itemId) {
+        Item findItem = itemRepository.findById(itemId).get();
+        List<Comment> findComments = commentRepository.findByItem(findItem);
+
+        for (Comment comment : findComments) {
+            commentRepository.delete(comment);
+        }
+        itemRepository.delete(findItem);
     }
 
     @Transactional

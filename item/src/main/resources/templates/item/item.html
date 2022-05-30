@@ -61,6 +61,12 @@
     </div>
     <div class="col">
       <button class="w-100 btn btn-primary btn-lg"
+              th:method="post"
+              th:onclick="|location.href='@{/items/{itemId}/delete(itemId=${item.id})}'|"
+              type="button">상품 삭제</button>
+    </div>
+    <div class="col">
+      <button class="w-100 btn btn-primary btn-lg"
               th:onclick="|location.href='@{/items/{itemId}/comments/add(itemId=${item.id})}'|"
               type="button">댓글 달기</button>
     </div>

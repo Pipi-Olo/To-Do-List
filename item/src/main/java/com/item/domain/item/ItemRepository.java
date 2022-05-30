@@ -8,16 +8,19 @@ import java.util.Optional;
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
     @Override
-    Optional<Item> findById(Long aLong);
+    Optional<Item> findById(Long itemId);
 
     @Override
     List<Item> findAll();
 
     @Override
-    <S extends Item> S save(S entity);
+    <S extends Item> S save(S Item);
 
     @Override
-    void deleteById(Long aLong);
+    void delete(Item item);
+
+    @Override
+    void deleteById(Long itemId);
 
     @Override
     void deleteAll();
