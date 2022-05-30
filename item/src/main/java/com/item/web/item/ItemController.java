@@ -94,10 +94,5 @@ public class ItemController {
             }
         }
     }
-
-    @PostConstruct
-    public void init() {
-        itemService.save(new ItemSaveForm("ItemA", 10000, 10));
-        itemService.save(new ItemSaveForm("ItemB", 20000, 20));
-    }
+    
 }

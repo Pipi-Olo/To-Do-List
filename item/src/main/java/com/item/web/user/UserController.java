@@ -46,9 +46,4 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @PostConstruct
-    public void init() {
-        userService.save(new UserSaveForm("test", "test"));
-        userService.save(new UserSaveForm("test2", "test2"));
-    }
 }
