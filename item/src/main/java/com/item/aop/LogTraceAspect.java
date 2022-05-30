@@ -1,26 +1,33 @@
 package com.item.aop;
 
+import com.item.domain.log.LogTrace;
+import com.item.domain.log.TraceStatus;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 
 @Slf4j
+@RequiredArgsConstructor
 @Aspect
 public class LogTraceAspect {
 
-    @Pointcut("execution(* com.item.config..*(..))")
-    public void allConfigs() {}
+    private final LogTrace logTrace;
 
-    @Before("execution(* com.item..*(..)) && !allConfigs()")
-    public void doLogTraceBefore(JoinPoint joinPoint) {
-        log.info("[LogTrace][Before] {}", joinPoint.getSignature());
-    }
+    @Around("execution(* com.item.web..*(..))")
+    public Object doLogTrace(ProceedingJoinPoint joinPoint) throws Throwable {
+        TraceStatus status = null;
+        try {
+            String message = joinPoint.getSignature().toShortString();
+            status = logTrace.begin(message);
 
-    @After("execution(* com.item..*(..)) && !allConfigs()")
-    public void doLogTraceAfter(JoinPoint joinPoint) {
-        log.info("[LogTrace][After] {}", joinPoint.getSignature());
+            Object result = joinPoint.proceed();
+
+            logTrace.end(status);
+            return result;
+        } catch (Exception e) {
+            logTrace.exception(status, e);
+            throw e;
+        }
     }
 }
