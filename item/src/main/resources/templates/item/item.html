@@ -42,12 +42,12 @@
   <table th:if="${not #lists.isEmpty(item.comments)}" class="table table-bordered">
     <caption>Comments</caption>
     <tr>
-      <th>Message</th>
-      <th>By</th>
+      <th>메세지</th>
+      <th>유저 ID</th>
     </tr>
-    <tr th:each="post : ${item.comments}">
-      <td th:text="${post.message}">Message</td>
-      <td th:text="${post.username}">By</td>
+    <tr th:each="comment : ${item.comments}">
+      <td><a th:href="@{/items/{itemId}/comments/{commentId}/edit(itemId=${item.id}, commentId=${comment.id})}" th:text="${comment.message}">Message</a></td>
+      <td><a th:text="${comment.username}">By</a></td>
     </tr>
   </table>
 

@@ -24,4 +24,15 @@ public class CommentService {
 
         commentRepository.save(comment);
     }
+
+    @Transactional
+    public Comment findById(Long commentId) {
+        return commentRepository.findById(commentId).get();
+    }
+
+    @Transactional
+    public void update(Long commentId, CommentUpdateForm updateForm) {
+        Comment findComment = commentRepository.findById(commentId).get();
+        findComment.update(updateForm.toEntity());
+    }
 }

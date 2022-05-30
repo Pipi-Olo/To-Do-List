@@ -32,6 +32,5 @@ public class Comment {
 
     public void update(Comment update) {
         this.message = update.getMessage();
-        this.username = update.getUsername();
     }
 }
