@@ -26,7 +26,7 @@ public class UserService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         saveForm.setPassword(encoder.encode(saveForm.getPassword()));
 
-        return userRepository.save(saveForm);
+        return userRepository.save(saveForm.toEntity());
     }
 
     @Override
