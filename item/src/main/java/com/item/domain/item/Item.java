@@ -1,33 +1,38 @@
 package com.item.domain.item;
 
 import com.item.domain.comment.Comment;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@NoArgsConstructor
+@Entity
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String itemName;
+
+    @Column
     private Integer price;
+
+    @Column
     private Integer quantity;
 
-    private List<Comment> comments;
+    @OneToMany
+    private List<Comment> comments = new ArrayList<>();
 
     public Item(String itemName, Integer price, Integer quantity) {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
-        this.comments = new ArrayList<>();
-    }
-
-    public Item(String itemName, Integer price, Integer quantity, List<Comment> comments) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-        this.comments = comments;
     }
 
     public Item(Long id, String itemName, Integer price, Integer quantity) {
@@ -35,7 +40,6 @@ public class Item {
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
-        this.comments = new ArrayList<>();
     }
 
     public void addComment(Comment comment) {

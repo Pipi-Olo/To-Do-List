@@ -1,7 +1,12 @@
 package com.item;
 
+import com.item.domain.comment.CommentRepository;
+import com.item.domain.item.ItemRepository;
+import com.item.domain.user.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 
 @SpringBootApplication
 public class ItemApplication {
@@ -10,4 +15,12 @@ public class ItemApplication {
         SpringApplication.run(ItemApplication.class, args);
     }
 
+    @Bean
+    @Profile("local")
+    public TestDataInit testDataInit(UserRepository userRepository,
+                                     ItemRepository itemRepository,
+                                     CommentRepository commentRepository
+    ) {
+        return new TestDataInit(userRepository, itemRepository, commentRepository);
+    }
 }

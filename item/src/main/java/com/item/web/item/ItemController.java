@@ -79,6 +79,12 @@ public class ItemController {
         return "redirect:/items/{itemId}";
     }
 
+    @GetMapping("/{itemId}/delete")
+    public String deleteItem(@PathVariable Long itemId) {
+        itemService.delete(itemId);
+        return "redirect:/items";
+    }
+
     public void validate(ItemRequestForm requestForm, BindingResult bindingResult) {
         if (requestForm.getPrice() != null && requestForm.getQuantity() != null) {
             int totalPrice = requestForm.getPrice() * requestForm.getQuantity();
@@ -88,10 +94,5 @@ public class ItemController {
             }
         }
     }
-
-    @PostConstruct
-    public void init() {
-        itemService.save(new ItemSaveForm("ItemA", 10000, 10));
-        itemService.save(new ItemSaveForm("ItemB", 20000, 20));
-    }
+    
 }

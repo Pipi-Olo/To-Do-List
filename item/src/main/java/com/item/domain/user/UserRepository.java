@@ -1,45 +1,26 @@
 package com.item.domain.user;
 
-import com.item.web.user.UserSaveForm;
-import com.item.web.user.UserUpdateForm;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    private static final Map<Long, User> store = new HashMap<>();
-    private static long sequence = 0L;
+    Optional<User> findByUsername(String username);
 
-    public User save(UserSaveForm saveForm) {
-        User user = saveForm.toEntity();
-        user.setId(++sequence);
-        store.put(user.getId(), user);
-        return user;
-    }
+    @Override
+    Optional<User> findById(Long aLong);
 
-    public Optional<User> findByUsername(String username) {
-        return findAll().stream()
-                .filter(u -> u.getUsername().equals(username))
-                .findFirst();
-    }
+    @Override
+    List<User> findAll();
 
-    public User findById(Long id) {
-        return store.get(id);
-    }
+    @Override
+    <S extends User> S save(S entity);
 
-    public List<User> findAll() {
-        return new ArrayList<>(store.values());
-    }
+    @Override
+    void deleteById(Long aLong);
 
-    public void update(Long userId, UserUpdateForm updateParam) {
-        User findUser = findById(userId);
-        findUser.update(updateParam.toEntity());
-    }
-
-    public void clearStore() {
-        store.clear();
-    }
-
+    @Override
+    void deleteAll();
 }

@@ -1,20 +1,38 @@
 package com.item.web.comment;
 
+import com.item.domain.comment.Comment;
+import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.security.Principal;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class CommentService {
 
     private final ItemRepository itemRepository;
+    private final CommentRepository commentRepository;
 
-    public void save(Long itemId, CommentSaveForm saveForm, Principal principal) {
-        Item findItem = itemRepository.findById(itemId);
-        findItem.addComment(saveForm.toEntity(principal.getName()));
+    @Transactional
+    public void save(Long itemId, CommentSaveForm saveForm, String username) {
+        Item findItem = itemRepository.findById(itemId).get();
+
+        Comment comment = saveForm.toEntity(username, findItem);
+        findItem.addComment(comment);
+
+        commentRepository.save(comment);
+    }
+
+    @Transactional
+    public Comment findById(Long commentId) {
+        return commentRepository.findById(commentId).get();
+    }
+
+    @Transactional
+    public void update(Long commentId, CommentUpdateForm updateForm) {
+        Comment findComment = commentRepository.findById(commentId).get();
+        findComment.update(updateForm.toEntity());
     }
 }
