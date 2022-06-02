@@ -33,6 +33,11 @@ public class ItemService {
     }
 
     @Transactional
+    public List<Item> findAll(ItemSearchCond searchCond) {
+        return itemRepository.findItemsBySearchParams(searchCond);
+    }
+
+    @Transactional
     public void update(Long itemId, ItemUpdateForm updateForm) {
         Item findItem = itemRepository.findById(itemId).get();
         findItem.update(updateForm.toEntity());

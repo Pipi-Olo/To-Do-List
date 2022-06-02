@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 
 @Slf4j
@@ -22,8 +21,8 @@ public class ItemController {
     private final ItemService itemService;
 
     @GetMapping
-    public String items(Model model) {
-        List<Item> items = itemService.findAll();
+    public String items(@ModelAttribute("itemSearch") ItemSearchCond searchCond, Model model) {
+        List<Item> items = itemService.findAll(searchCond);
         model.addAttribute("items", items);
         return "item/items";
     }
