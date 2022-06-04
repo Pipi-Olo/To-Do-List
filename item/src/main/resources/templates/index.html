@@ -14,29 +14,30 @@
 
   <div class="row">
     <div class="col">
-      <button class="w-100 btn btn-secondary btn-lg" type="button"
+      <button sec:authorize="isAnonymous()"
+              class="w-100 btn btn-secondary btn-lg" type="button"
               th:onclick="|location.href='@{/users/add}'|">
         회원 가입
       </button>
     </div>
     <div class="col">
       <button sec:authorize="isAnonymous()"
-              class="w-100 btn btn-primary btn-lg"
-              th:onclick="|location.href='@{/login}'|" type="button">
+              class="w-100 btn btn-primary btn-lg" type="button"
+              th:onclick="|location.href='@{/login}'|">
         로그인
       </button>
     </div>
     <div class="col">
       <button sec:authorize="isAuthenticated()"
-              class="w-100 btn btn-dark btn-lg"
-              th:onclick="|location.href='@{/logout}'|" type="button">
+              class="w-100 btn btn-dark btn-lg" type="button"
+              th:onclick="|location.href='@{/logout}'|">
         로그아웃
       </button>
     </div>
     <div class="col">
       <button sec:authorize="isAuthenticated()"
-              class="w-100 btn btn-primary btn-lg"
-              th:onclick="|location.href='@{/items}'|" type="button">
+              class="w-100 btn btn-primary btn-lg" type="button"
+              th:onclick="|location.href='@{/items}'|">
         상품 관리
       </button>
     </div>

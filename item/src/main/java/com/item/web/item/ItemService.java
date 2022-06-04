@@ -22,17 +22,17 @@ public class ItemService {
         return itemRepository.save(saveForm.toEntity());
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Item findById(Long itemId) {
         return itemRepository.findById(itemId).get();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> findAll() {
         return itemRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> findAll(ItemSearchCond searchCond) {
         return itemRepository.findItemsBySearchParams(searchCond);
     }

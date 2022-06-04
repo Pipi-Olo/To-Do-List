@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CommentService {
@@ -16,18 +18,28 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public void save(Long itemId, CommentSaveForm saveForm, String username) {
+    public Comment save(Long itemId, CommentSaveForm saveForm, String username) {
         Item findItem = itemRepository.findById(itemId).get();
 
         Comment comment = saveForm.toEntity(username, findItem);
         findItem.addComment(comment);
 
-        commentRepository.save(comment);
+        return commentRepository.save(comment);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Comment findById(Long commentId) {
         return commentRepository.findById(commentId).get();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> findByItem(Item item) {
+        return commentRepository.findByItem(item);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Comment> findAll() {
+        return commentRepository.findAll();
     }
 
     @Transactional
