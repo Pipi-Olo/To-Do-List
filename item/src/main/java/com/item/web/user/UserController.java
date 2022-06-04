@@ -1,5 +1,6 @@
 package com.item.web.user;
 
+import com.item.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,11 @@ public class UserController {
         }
 
         return "redirect:/login";
+    }
+
+    @ModelAttribute("roles")
+    public Role[] roles() {
+        return Role.values();
     }
 
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="utf-8">
   <link th:href="@{/css/bootstrap.min.css}"
@@ -29,6 +29,7 @@
 
       <div class="col">
         <button class="btn btn-primary float-end"
+                sec:authorize="hasAnyRole('ROLE_SELLER')"
                 th:onclick="|location.href='@{/items/add}'|"
                 type="button">상품 등록</button>
       </div>

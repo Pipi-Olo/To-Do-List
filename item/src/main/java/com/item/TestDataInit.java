@@ -4,12 +4,15 @@ import com.item.domain.comment.Comment;
 import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
+import com.item.domain.user.Role;
 import com.item.domain.user.User;
 import com.item.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static com.item.domain.user.Role.*;
 
 @RequiredArgsConstructor
 public class TestDataInit {
@@ -22,8 +25,8 @@ public class TestDataInit {
     public void initDate() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        userRepository.save(new User("test", encoder.encode("test")));
-        userRepository.save(new User("test2", encoder.encode("test2")));
+        userRepository.save(new User("buyer", encoder.encode("buyer"), ROLE_BUYER));
+        userRepository.save(new User("seller", encoder.encode("seller"), ROLE_SELLER));
 
 
         Item itemA = new Item("itemA", 10000, 10);
