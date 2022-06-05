@@ -2,6 +2,7 @@ package com.item.domain.item;
 
 import com.item.domain.comment.Comment;
 import com.item.domain.order.Order;
+import com.item.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,14 +28,14 @@ public class Item {
     @Column
     private Integer quantity;
 
+    @ManyToOne
+    private User seller;
+
     @OneToMany
     private List<Comment> comments = new ArrayList<>();
 
-    public Item(String itemName, Integer price, Integer quantity) {
-        this.itemName = itemName;
-        this.price = price;
-        this.quantity = quantity;
-    }
+    @OneToMany
+    private List<Order> orders = new ArrayList<>();
 
     public Item(Long id, String itemName, Integer price, Integer quantity) {
         this.id = id;
@@ -43,12 +44,20 @@ public class Item {
         this.quantity = quantity;
     }
 
+    public Item(String itemName, Integer price, Integer quantity, User seller) {
+        this.itemName = itemName;
+        this.price = price;
+        this.quantity = quantity;
+        this.seller = seller;
+    }
+
     public void addComment(Comment comment) {
         this.comments.add(comment);
     }
 
-    public void order(Order order) {
+    public void addOrder(Order order) {
         this.quantity -= order.getQuantity();
+        orders.add(order);
     }
 
     public void update(Item update) {

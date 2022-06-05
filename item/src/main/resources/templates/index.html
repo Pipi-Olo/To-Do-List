@@ -26,8 +26,7 @@
               th:onclick="|location.href='@{/login}'|">
         로그인
       </button>
-    </div>
-    <div class="col">
+
       <button sec:authorize="isAuthenticated()"
               class="w-100 btn btn-dark btn-lg" type="button"
               th:onclick="|location.href='@{/logout}'|">
@@ -39,6 +38,13 @@
               class="w-100 btn btn-primary btn-lg" type="button"
               th:onclick="|location.href='@{/items}'|">
         상품 관리
+      </button>
+    </div>
+    <div class="col">
+      <button sec:authorize="isAuthenticated()"
+              class="w-100 btn btn-primary btn-lg" type="button"
+              th:onclick="|location.href='@{/users/userinfo}'|">
+        유저 정보
       </button>
     </div>
   </div>

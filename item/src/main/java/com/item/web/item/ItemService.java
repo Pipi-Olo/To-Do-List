@@ -4,27 +4,36 @@ import com.item.domain.comment.Comment;
 import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
+import com.item.domain.user.User;
+import com.item.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
 @Service
 public class ItemService {
 
+    private final UserRepository userRepository;
     private final ItemRepository itemRepository;
     private final CommentRepository commentRepository;
 
     @Transactional
-    public Item save(ItemSaveForm saveForm) {
-        return itemRepository.save(saveForm.toEntity());
+    public Item save(String username, ItemSaveForm saveForm) {
+        User seller = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
+
+        return itemRepository.save(saveForm.toEntity(seller));
     }
 
     @Transactional(readOnly = true)
     public Item findById(Long itemId) {
-        return itemRepository.findById(itemId).get();
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Can Not Find itemId=" + itemId));
     }
 
     @Transactional(readOnly = true)
@@ -39,7 +48,8 @@ public class ItemService {
 
     @Transactional
     public void update(Long itemId, ItemUpdateForm updateForm) {
-        Item findItem = itemRepository.findById(itemId).get();
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Can Not Find itemId=" + itemId));
         findItem.update(updateForm.toEntity());
     }
 

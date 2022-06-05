@@ -1,16 +1,17 @@
 package com.item.domain.user;
 
+import com.item.domain.item.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
-@Getter
-@NoArgsConstructor
+@Getter @NoArgsConstructor
 @Entity
 public class User implements UserDetails {
 
@@ -24,13 +25,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @OneToMany
+    private final List<Item> items = new ArrayList<>();
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.role = role;
     }
 
     public void update(User updateParam) {
@@ -38,9 +38,13 @@ public class User implements UserDetails {
         this.password = updateParam.getPassword();
     }
 
+    public void addItem(Item item) {
+        items.add(item);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton((GrantedAuthority) () -> role.name());
+        return null;
     }
 
     @Override

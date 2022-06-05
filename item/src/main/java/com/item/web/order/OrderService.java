@@ -23,7 +23,7 @@ public class OrderService {
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
 
         Order order = saveForm.toEntity(findItem, findUser);
-        findItem.order(order);
+        findItem.addOrder(order);
 
         return orderRepository.save(order);
     }

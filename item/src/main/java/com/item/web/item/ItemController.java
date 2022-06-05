@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -34,49 +35,7 @@ public class ItemController {
         return "item/item";
     }
 
-    @GetMapping("/add")
-    public String addItemForm(Model model) {
-        model.addAttribute("item", new ItemSaveForm());
-        return "item/addForm";
-    }
 
-    @PostMapping("/add")
-    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm saveForm,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes
-    ) {
-        validate(saveForm, bindingResult);
-        if (bindingResult.hasErrors()) {
-            log.error("errors={}", bindingResult);
-            return "item/addForm";
-        }
-
-        Item savedItem = itemService.save(saveForm);
-        redirectAttributes.addAttribute("itemId", savedItem.getId());
-        return "redirect:/items/{itemId}";
-    }
-
-    @GetMapping("/{itemId}/edit")
-    public String editItemForm(@PathVariable Long itemId, Model model) {
-        Item findItem = itemService.findById(itemId);
-        model.addAttribute("item", findItem);
-        return "item/editForm";
-    }
-
-    @PostMapping("/{itemId}/edit")
-    public String editItem(@PathVariable Long itemId,
-                           @Validated @ModelAttribute("item") ItemUpdateForm updateForm,
-                           BindingResult bindingResult
-    ) {
-        validate(updateForm, bindingResult); // ObjectError
-        if (bindingResult.hasErrors()) {
-            log.error("errors={}", bindingResult);
-            return "item/editForm";
-        }
-
-        itemService.update(itemId, updateForm);
-        return "redirect:/items/{itemId}";
-    }
 
     @GetMapping("/{itemId}/delete")
     public String deleteItem(@PathVariable Long itemId) {

@@ -1,5 +1,7 @@
 package com.item.web.user;
 
+import com.item.domain.item.Item;
+import com.item.domain.item.ItemRepository;
 import com.item.domain.order.Order;
 import com.item.domain.order.OrderRepository;
 import com.item.domain.user.User;
@@ -21,6 +23,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final ItemRepository itemRepository;
 
     @Transactional
     public User save(UserSaveForm saveForm) {
@@ -40,9 +43,10 @@ public class UserService implements UserDetailsService {
         User findUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
 
+        List<Item> items = itemRepository.findBySeller(findUser);
         List<Order> orders = orderRepository.findByUser(findUser);
 
-        return new UserResponseForm(findUser.getUsername(), orders);
+        return new UserResponseForm(findUser.getUsername(), items, orders);
     }
 
     @Override
