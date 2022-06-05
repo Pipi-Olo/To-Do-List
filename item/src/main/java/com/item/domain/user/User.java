@@ -1,5 +1,6 @@
 package com.item.domain.user;
 
+import com.item.domain.comment.Comment;
 import com.item.domain.item.Item;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,9 @@ public class User implements UserDetails {
     @OneToMany
     private final List<Item> items = new ArrayList<>();
 
+    @OneToMany
+    private final List<Comment> comments = new ArrayList<>();
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -39,7 +43,11 @@ public class User implements UserDetails {
     }
 
     public void addItem(Item item) {
-        items.add(item);
+        this.items.add(item);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 
     @Override

@@ -39,7 +39,7 @@
         매세지 오류
       </div>
     </div>
-    <div>
+    <div th:object="${comment.user}">
       <label for="username">유저 ID</label>
       <input type="text" id="username"
              th:field="*{username}"

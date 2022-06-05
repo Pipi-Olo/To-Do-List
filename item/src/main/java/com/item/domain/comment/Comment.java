@@ -1,6 +1,7 @@
 package com.item.domain.comment;
 
 import com.item.domain.item.Item;
+import com.item.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,15 +19,15 @@ public class Comment {
     @Column
     private String message;
 
-    @Column
-    private String username;
+    @ManyToOne
+    private User user;
 
     @ManyToOne
     private Item item;
 
-    public Comment(String message, String username, Item item) {
+    public Comment(String message, User user, Item item) {
         this.message = message;
-        this.username = username;
+        this.user = user;
         this.item = item;
     }
 

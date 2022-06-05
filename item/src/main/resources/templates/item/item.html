@@ -8,6 +8,10 @@
       .container {
           max-width: 560px;
       }
+      .field-error {
+          border-color: #dc3545;
+          color: #dc3545;
+      }
   </style>
 </head>
 <body>
@@ -19,6 +23,8 @@
   </div>
 
   <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+
+  <h3><a class="field-error" th:text="${error}"></a></h3>
 
   <div>
     <label for="itemId">상품 ID</label>
@@ -57,7 +63,7 @@
     <tbody>
       <tr th:each="comment : ${item.comments}">
         <td><a th:href="@{/items/{itemId}/comments/{commentId}/edit(itemId=${item.id}, commentId=${comment.id})}" th:text="${comment.message}">Message</a></td>
-        <td><a th:text="${comment.username}">By</a></td>
+        <td><a th:text="${comment.user.username}">By</a></td>
       </tr>
     </tbody>
   </table>
@@ -72,17 +78,17 @@
     <!--              type="button">상품 삭제</button>-->
     <!--    </div>-->
     <div class="col">
-      <button class="btn btn-primary btn-lg float-start"
+      <button class="w-100 btn btn-primary btn-lg"
               th:onclick="|location.href='@{/items/{itemId}/comments/add(itemId=${item.id})}'|"
               type="button">상품평 달기</button>
     </div>
     <div class="col">
-      <button class="btn btn-primary btn-lg float-start"
+      <button class="w-100 btn btn-primary btn-lg"
               th:onclick="|location.href='@{/items/{itemId}/orders/add(itemId=${item.id})}'|"
               type="button">주문 하기</button>
     </div>
     <div class="col">
-      <button class="btn btn-secondary btn-lg float-end"
+      <button class="w-100 btn btn-secondary btn-lg"
               th:onclick="|location.href='@{/items}'|"
               type="button">목록으로</button>
     </div>

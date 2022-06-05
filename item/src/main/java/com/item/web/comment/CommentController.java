@@ -1,6 +1,8 @@
 package com.item.web.comment;
 
 import com.item.domain.comment.Comment;
+import com.item.domain.item.Item;
+import com.item.web.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import java.security.Principal;
 @Controller
 public class CommentController {
 
+    private final ItemService itemService;
     private final CommentService commentService;
 
     @GetMapping("/add")
@@ -43,31 +46,38 @@ public class CommentController {
     }
 
     @GetMapping("/{commentId}/edit")
-    public String editCommentForm(@PathVariable Long commentId, Model model) {
+    public String editCommentForm(@PathVariable Long itemId,
+                                  @PathVariable Long commentId,
+                                  Principal principal,
+                                  Model model
+    ) {
         Comment findComment = commentService.findById(commentId);
+
+        if (!findComment.getUser().getUsername().equals(principal.getName())) {
+            Item findItem = itemService.findById(itemId);
+            model.addAttribute("item", findItem);
+            model.addAttribute("error", "본인이 작성한 댓글만 수정 가능합니다.");
+            return "item/item";
+        }
+
         model.addAttribute("comment", findComment);
         return "comment/editCommentForm";
     }
 
     @PostMapping("/{commentId}/edit")
-    public String editComment(@PathVariable Long commentId,
+    public String editComment(@PathVariable Long itemId,
+                              @PathVariable Long commentId,
                               @Validated @ModelAttribute("comment") CommentUpdateForm updateForm,
                               BindingResult bindingResult,
                               Principal principal
     ) {
-        validate(updateForm.toEntity(), principal.getName(), bindingResult);
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "comment/editCommentForm";
         }
 
-        commentService.update(commentId, updateForm);
+        commentService.update(itemId, commentId, principal.getName(), updateForm);
         return "redirect:/items/{itemId}";
     }
 
-    public void validate(Comment comment, String username, BindingResult bindingResult) {
-        if (!comment.getUsername().equals(username)) {
-            bindingResult.reject("globalError", "본인이 작성한 댓글만 수정 가능합니다.");
-        }
-    }
 }

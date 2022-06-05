@@ -35,15 +35,20 @@ public class TestDataInit {
         userA.addItem(itemA);
         userB.addItem(itemB);
 
-        Comment commentA1 = commentRepository.save(new Comment("test message A1", "test", itemA));
-        Comment commentA2 = commentRepository.save(new Comment("test message A2", "test2", itemA));
-        Comment commentB1 = commentRepository.save(new Comment("test message B1", "test", itemB));
-        Comment commentB2 = commentRepository.save(new Comment("test message B2", "test2", itemB));
+        Comment commentA1 = commentRepository.save(new Comment("test message A1", userA, itemA));
+        Comment commentA2 = commentRepository.save(new Comment("test message A2", userB, itemA));
+        Comment commentB1 = commentRepository.save(new Comment("test message B1", userA, itemB));
+        Comment commentB2 = commentRepository.save(new Comment("test message B2", userB, itemB));
 
         itemA.addComment(commentA1);
         itemA.addComment(commentA2);
         itemB.addComment(commentB1);
         itemB.addComment(commentB2);
+
+        userA.addComment(commentA1);
+        userA.addComment(commentB1);
+        userB.addComment(commentA2);
+        userB.addComment(commentB2);
 
         itemRepository.save(itemA);
         itemRepository.save(itemB);
