@@ -1,6 +1,7 @@
 package com.item.web.user;
 
 import com.item.domain.user.Role;
+import com.item.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.security.Principal;
+
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -19,6 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/userinfo")
+    public String user(Model model, Principal principal) {
+        UserResponseForm findUser = userService.findByUsername(principal.getName());
+        model.addAttribute("user", findUser);
+        return "user/user";
+    }
 
     @GetMapping("/add")
     public String addUserForm(Model model) {

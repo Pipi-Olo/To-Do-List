@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      .container {
+          max-width: 560px;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="py-5 text-center">
+    <h2>유저 정보 상세</h2>
+  </div>
+
+  <div th:object="${user}">
+    <div>
+      <label for="id">유저 ID</label>
+      <input type="text" id="id" name="id"
+             th:value="*{username}"
+             class="form-control" readonly>
+    </div>
+
+    <hr class="my-4">
+
+    <table th:if="${not #lists.isEmpty(user.orders)}" class="table table-bordered">
+      <caption>Orders</caption>
+      <tr>
+        <th>아이템</th>
+        <th>수량</th>
+      </tr>
+      <tr th:each="order : ${user.orders}">
+        <td><a th:text="${order.item.itemName}"></a></td>
+        <td><a th:text="${order.quantity}"></a></td>
+      </tr>
+    </table>
+
+  </div>
+
+  <hr class="my-4">
+
+    <div class="col">
+      <button class="btn btn-secondary "
+              th:onclick="|location.href='@{/items}'|"
+              type="button">목록으로</button>
+    </div>
+  </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>

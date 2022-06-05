@@ -1,6 +1,7 @@
 package com.item.domain.item;
 
 import com.item.domain.comment.Comment;
+import com.item.domain.order.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +45,10 @@ public class Item {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void order(Order order) {
+        this.quantity -= order.getQuantity();
     }
 
     public void update(Item update) {

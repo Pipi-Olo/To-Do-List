@@ -1,5 +1,7 @@
 package com.item.web.user;
 
+import com.item.domain.order.Order;
+import com.item.domain.order.OrderRepository;
 import com.item.domain.user.User;
 import com.item.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
 
     @Transactional
     public User save(UserSaveForm saveForm) {
@@ -29,6 +33,16 @@ public class UserService implements UserDetailsService {
         saveForm.setPassword(encoder.encode(saveForm.getPassword()));
 
         return userRepository.save(saveForm.toEntity());
+    }
+
+    @Transactional
+    public UserResponseForm findByUsername(String username) {
+        User findUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
+
+        List<Order> orders = orderRepository.findByUser(findUser);
+
+        return new UserResponseForm(findUser.getUsername(), orders);
     }
 
     @Override

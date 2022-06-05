@@ -64,6 +64,13 @@
               th:onclick="|location.href='@{/}'|"
               type="button">홈으로</button>
     </div>
+
+    <div class="col">
+      <button class="btn btn-primary float-end"
+              sec:authorize="hasAnyRole('ROLE_BUYER')"
+              th:onclick="|location.href='@{/users/userinfo}'|"
+              type="button">유저 정보</button>
+    </div>
   </div>
 
 </div> <!-- /container -->
