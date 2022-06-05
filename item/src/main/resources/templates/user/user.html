@@ -25,6 +25,12 @@
              th:value="*{username}"
              class="form-control" readonly>
     </div>
+    <div>
+      <label for="revenue">총 수익</label>
+      <input type="text" id="revenue" name="revenue"
+             th:value="*{revenue}"
+             class="form-control" readonly>
+    </div>
 
     <hr class="my-4">
 
@@ -58,6 +64,58 @@
           <td><a th:href="@{|/users/items/${item.id}/edit|}" th:text="${item.itemName}">상품명</a></td>
           <td><a th:text="${item.price}">가격</a></td>
           <td><a th:text="${item.quantity}">수량</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="my-4">
+
+    <div>
+      <div class="text-center">
+        <h4>구매 목록</h4>
+      </div>
+
+      <table th:if="${not #lists.isEmpty(user.purchases)}" class="table table-bordered">
+        <thead>
+        <tr>
+          <th>상품명</th>
+          <th>가격</th>
+          <th>수량</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="purchase : ${user.purchases}">
+          <td><a th:text="${purchase.item.itemName}">상품명</a></td>
+          <td><a th:text="${purchase.item.price}">가격</a></td>
+          <td><a th:text="${purchase.quantity}">수량</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr class="my-4">
+
+    <div>
+      <div class="text-center">
+        <h4>판매 목록</h4>
+      </div>
+
+      <table th:if="${not #lists.isEmpty(user.sales)}" class="table table-bordered">
+        <thead>
+        <tr>
+          <th>상품명</th>
+          <th>가격</th>
+          <th>수량</th>
+          <th>구매자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="sale : ${user.sales}">
+          <td><a th:text="${sale.item.itemName}">상품명</a></td>
+          <td><a th:text="${sale.item.price}">가격</a></td>
+          <td><a th:text="${sale.quantity}">수량</a></td>
+          <td><a th:text="${sale.buyer.username}">구매자</a></td>
         </tr>
         </tbody>
       </table>

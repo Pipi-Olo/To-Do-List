@@ -14,18 +14,17 @@ public class Order {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Item item;
 
-    @OneToOne
-    private User user;
+    @ManyToOne
+    private User buyer;
 
     private Integer quantity;
 
-
-    public Order(Item item, User user, Integer quantity) {
+    public Order(Item item, User buyer, Integer quantity) {
         this.item = item;
-        this.user = user;
+        this.buyer = buyer;
         this.quantity = quantity;
     }
 }

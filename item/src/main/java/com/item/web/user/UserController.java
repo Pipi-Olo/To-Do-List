@@ -2,7 +2,6 @@ package com.item.web.user;
 
 import com.item.domain.item.Item;
 import com.item.domain.user.Role;
-import com.item.domain.user.User;
 import com.item.web.item.ItemRequestForm;
 import com.item.web.item.ItemSaveForm;
 import com.item.web.item.ItemService;
@@ -109,7 +108,7 @@ public class UserController {
         return Role.values();
     }
 
-    public void validate(ItemRequestForm requestForm, BindingResult bindingResult) {
+    private void validate(ItemRequestForm requestForm, BindingResult bindingResult) {
         if (requestForm.getPrice() != null && requestForm.getQuantity() != null) {
             int totalPrice = requestForm.getPrice() * requestForm.getQuantity();
             if (totalPrice < 10000) {

@@ -19,10 +19,13 @@ public class OrderService {
 
     @Transactional
     public Order save(Item findItem, String username, OrderSaveForm saveForm) {
-        User findUser = userRepository.findByUsername(username)
+        User seller = findItem.getSeller();
+        User buyer = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
+        Order order = saveForm.toEntity(findItem, buyer);
 
-        Order order = saveForm.toEntity(findItem, findUser);
+        seller.addSale(order);
+        buyer.addPurchase(order);
         findItem.addOrder(order);
 
         return orderRepository.save(order);

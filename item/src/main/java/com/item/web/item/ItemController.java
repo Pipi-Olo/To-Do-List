@@ -6,11 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -35,22 +32,10 @@ public class ItemController {
         return "item/item";
     }
 
-
-
     @GetMapping("/{itemId}/delete")
     public String deleteItem(@PathVariable Long itemId) {
         itemService.delete(itemId);
         return "redirect:/items";
     }
 
-    public void validate(ItemRequestForm requestForm, BindingResult bindingResult) {
-        if (requestForm.getPrice() != null && requestForm.getQuantity() != null) {
-            int totalPrice = requestForm.getPrice() * requestForm.getQuantity();
-            if (totalPrice < 10000) {
-//                bindingResult.reject("totalPriceMin", new Object[]{10000, totalPrice}, null);
-                bindingResult.reject("globalError", "가격 * 수량의 값은 10000 초과이어야 합니다. 현재 값 = " + totalPrice); // ObjectError
-            }
-        }
-    }
-    
 }

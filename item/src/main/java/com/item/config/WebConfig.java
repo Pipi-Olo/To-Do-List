@@ -1,6 +1,5 @@
 package com.item.config;
 
-import com.item.domain.user.Role;
 import com.item.web.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -11,8 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-import static com.item.domain.user.Role.*;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -28,7 +25,6 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/login", "/users/add").permitAll()
-                .antMatchers("/items/add").hasRole(ROLE_SELLER.name())
                 .anyRequest().authenticated();
 
         http.formLogin()

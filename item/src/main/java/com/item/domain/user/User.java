@@ -2,6 +2,7 @@ package com.item.domain.user;
 
 import com.item.domain.comment.Comment;
 import com.item.domain.item.Item;
+import com.item.domain.order.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,6 +33,12 @@ public class User implements UserDetails {
     @OneToMany
     private final List<Comment> comments = new ArrayList<>();
 
+    @OneToMany
+    private final List<Order> purchases = new ArrayList<>();
+
+    @OneToMany
+    private final List<Order> sales = new ArrayList<>();
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -48,6 +55,14 @@ public class User implements UserDetails {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public void addPurchase(Order order) {
+        this.purchases.add(order);
+    }
+
+    public void addSale(Order order) {
+        this.sales.add(order);
     }
 
     @Override
