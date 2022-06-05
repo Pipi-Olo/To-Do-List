@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -65,5 +64,22 @@ public class CommentService {
                 .orElseThrow(() -> new NoSuchElementException("Not Fount commentId=" + commentId));
 
         findComment.update(updateForm.toEntity(findUser, findItem));
+    }
+
+    @Transactional
+    public void delete(Long itemId, Long commentId, String username) {
+        User findUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Fount username=" + username));
+
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Not Fount itemId=" + itemId));
+
+        Comment findComment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new NoSuchElementException("Not Fount commentId=" + commentId));
+
+        findUser.getComments().remove(findComment);
+        findItem.getComments().remove(findComment);
+
+        commentRepository.delete(findComment);
     }
 }

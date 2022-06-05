@@ -80,4 +80,13 @@ public class CommentController {
         return "redirect:/items/{itemId}";
     }
 
+    @GetMapping("/{commentId}/delete")
+    public String deleteComment(@PathVariable Long itemId,
+                                @PathVariable Long commentId,
+                                Principal principal
+    ) {
+        commentService.delete(itemId, commentId, principal.getName());
+        return "redirect:/items/{itemId}";
+    }
+
 }

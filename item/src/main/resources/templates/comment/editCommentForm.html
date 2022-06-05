@@ -54,6 +54,11 @@
       </div>
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/items/{itemId}/comments/{commentId}/delete(itemId=${itemId}, commentId=${comment.id})}'|"
+                type="button">상품평 삭제</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
                 th:onclick="|location.href='@{/items/{itemId}(itemId=${itemId})}'|"
                 type="button">취소</button>
       </div>
