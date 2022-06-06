@@ -53,32 +53,26 @@ public class CommentService {
     }
 
     @Transactional
-    public void update(Long itemId, Long commentId, String username, CommentUpdateForm updateForm) {
-        User findUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Not Fount username=" + username));
-
-        Item findItem = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NoSuchElementException("Not Fount itemId=" + itemId));
-
+    public void update(Long commentId, CommentUpdateForm updateForm) {
         Comment findComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NoSuchElementException("Not Fount commentId=" + commentId));
 
-        findComment.update(updateForm.toEntity(findUser, findItem));
+        User user = findComment.getUser();
+        Item item = findComment.getItem();
+
+        findComment.update(updateForm.toEntity(user, item));
     }
 
     @Transactional
-    public void delete(Long itemId, Long commentId, String username) {
-        User findUser = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Not Fount username=" + username));
-
-        Item findItem = itemRepository.findById(itemId)
-                .orElseThrow(() -> new NoSuchElementException("Not Fount itemId=" + itemId));
-
+    public void delete(Long commentId) {
         Comment findComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NoSuchElementException("Not Fount commentId=" + commentId));
 
-        findUser.getComments().remove(findComment);
-        findItem.getComments().remove(findComment);
+        Item item = findComment.getItem();
+        User user = findComment.getUser();
+
+        user.getComments().remove(findComment);
+        item.getComments().remove(findComment);
 
         commentRepository.delete(findComment);
     }

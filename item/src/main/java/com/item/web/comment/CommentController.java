@@ -65,27 +65,22 @@ public class CommentController {
     }
 
     @PostMapping("/{commentId}/edit")
-    public String editComment(@PathVariable Long itemId,
-                              @PathVariable Long commentId,
+    public String editComment(@PathVariable Long commentId,
                               @Validated @ModelAttribute("comment") CommentUpdateForm updateForm,
-                              BindingResult bindingResult,
-                              Principal principal
+                              BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "comment/editCommentForm";
         }
 
-        commentService.update(itemId, commentId, principal.getName(), updateForm);
+        commentService.update(commentId, updateForm);
         return "redirect:/items/{itemId}";
     }
 
     @GetMapping("/{commentId}/delete")
-    public String deleteComment(@PathVariable Long itemId,
-                                @PathVariable Long commentId,
-                                Principal principal
-    ) {
-        commentService.delete(itemId, commentId, principal.getName());
+    public String deleteComment(@PathVariable Long commentId) {
+        commentService.delete(commentId);
         return "redirect:/items/{itemId}";
     }
 

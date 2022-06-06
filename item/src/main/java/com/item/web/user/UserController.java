@@ -1,7 +1,6 @@
 package com.item.web.user;
 
 import com.item.domain.item.Item;
-import com.item.domain.user.Role;
 import com.item.web.item.ItemRequestForm;
 import com.item.web.item.ItemSaveForm;
 import com.item.web.item.ItemService;
@@ -103,9 +102,16 @@ public class UserController {
         return "redirect:/users/userinfo";
     }
 
-    @ModelAttribute("roles")
-    public Role[] roles() {
-        return Role.values();
+    @GetMapping("/items/{itemId}/delete")
+    public String deleteItem(@PathVariable Long itemId,
+                             Principal principal,
+                             Model model
+    ) {
+        itemService.delete(itemId);
+
+        UserResponseForm findUser = userService.findByUsername(principal.getName());
+        model.addAttribute("user", findUser);
+        return "user/user";
     }
 
     private void validate(ItemRequestForm requestForm, BindingResult bindingResult) {

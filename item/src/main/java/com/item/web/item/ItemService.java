@@ -6,6 +6,7 @@ import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
 import com.item.domain.user.User;
 import com.item.domain.user.UserRepository;
+import com.item.web.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -18,16 +19,20 @@ import java.util.NoSuchElementException;
 @Service
 public class ItemService {
 
+    private final CommentService commentService;
+
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
-    private final CommentRepository commentRepository;
 
     @Transactional
     public Item save(String username, ItemSaveForm saveForm) {
         User seller = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
 
-        return itemRepository.save(saveForm.toEntity(seller));
+        Item item = itemRepository.save(saveForm.toEntity(seller));
+        seller.addItem(item);
+
+        return item;
     }
 
     @Transactional(readOnly = true)
@@ -55,12 +60,17 @@ public class ItemService {
 
     @Transactional
     public void delete(Long itemId) {
-        Item findItem = itemRepository.findById(itemId).get();
-        List<Comment> findComments = commentRepository.findByItem(findItem);
+        Item findItem = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NoSuchElementException("Can Not Find itemId=" + itemId));
+        List<Comment> comments = findItem.getComments();
 
-        for (Comment comment : findComments) {
-            commentRepository.delete(comment);
+        for (Comment comment : comments) {
+            commentService.delete(comment.getId());
         }
+
+        User seller = findItem.getSeller();
+        seller.getItems().remove(findItem);
+
         itemRepository.delete(findItem);
     }
 

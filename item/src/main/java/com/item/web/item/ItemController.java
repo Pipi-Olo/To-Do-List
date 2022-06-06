@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +29,6 @@ public class ItemController {
         Item findItem = itemService.findById(itemId);
         model.addAttribute("item", findItem);
         return "item/item";
-    }
-
-    @GetMapping("/{itemId}/delete")
-    public String deleteItem(@PathVariable Long itemId) {
-        itemService.delete(itemId);
-        return "redirect:/items";
     }
 
 }
