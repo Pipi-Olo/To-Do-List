@@ -2,6 +2,7 @@ package com.item;
 
 import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.ItemRepository;
+import com.item.domain.order.OrderRepository;
 import com.item.domain.user.UserRepository;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,8 +20,9 @@ public class ItemApplication {
     @Profile("local")
     public TestDataInit testDataInit(UserRepository userRepository,
                                      ItemRepository itemRepository,
-                                     CommentRepository commentRepository
+                                     CommentRepository commentRepository,
+                                     OrderRepository orderRepository
     ) {
-        return new TestDataInit(userRepository, itemRepository, commentRepository);
+        return new TestDataInit(userRepository, itemRepository, commentRepository, orderRepository);
     }
 }
