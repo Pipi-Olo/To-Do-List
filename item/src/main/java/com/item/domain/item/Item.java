@@ -1,17 +1,15 @@
 package com.item.domain.item;
 
-import com.item.domain.comment.Comment;
 import com.item.domain.order.Order;
 import com.item.domain.user.User;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 public class Item {
 
@@ -31,12 +29,6 @@ public class Item {
     @ManyToOne
     private User seller;
 
-    @OneToMany
-    private List<Comment> comments = new ArrayList<>();
-
-    @OneToMany
-    private List<Order> orders = new ArrayList<>();
-
     public Item(Long id, String itemName, Integer price, Integer quantity) {
         this.id = id;
         this.itemName = itemName;
@@ -51,13 +43,8 @@ public class Item {
         this.seller = seller;
     }
 
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-    }
-
     public void addOrder(Order order) {
         this.quantity -= order.getQuantity();
-        orders.add(order);
     }
 
     public void update(Item update) {

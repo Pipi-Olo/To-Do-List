@@ -1,10 +1,7 @@
 package com.item.web.user;
 
 import com.item.domain.item.Item;
-import com.item.web.item.ItemRequestForm;
-import com.item.web.item.ItemSaveForm;
-import com.item.web.item.ItemService;
-import com.item.web.item.ItemUpdateForm;
+import com.item.web.item.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -82,7 +79,7 @@ public class UserController {
 
     @GetMapping("/items/{itemId}/edit")
     public String editItemForm(@PathVariable Long itemId, Model model) {
-        Item findItem = itemService.findById(itemId);
+        ItemResponse findItem = itemService.findById(itemId);
         model.addAttribute("item", findItem);
         return "user/editItemForm";
     }

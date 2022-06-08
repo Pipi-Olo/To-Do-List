@@ -30,15 +30,18 @@ public class ItemService {
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Username=" + username));
 
         Item item = itemRepository.save(saveForm.toEntity(seller));
-        seller.addItem(item);
 
         return item;
     }
 
     @Transactional(readOnly = true)
-    public Item findById(Long itemId) {
-        return itemRepository.findById(itemId)
+    public ItemResponse findById(Long itemId) {
+        Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NoSuchElementException("Can Not Find itemId=" + itemId));
+
+        List<Comment> comments = commentService.findByItem(item);
+
+        return new ItemResponse(item, comments);
     }
 
     @Transactional(readOnly = true)
@@ -62,14 +65,6 @@ public class ItemService {
     public void delete(Long itemId) {
         Item findItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NoSuchElementException("Can Not Find itemId=" + itemId));
-        List<Comment> comments = findItem.getComments();
-
-        for (Comment comment : comments) {
-            commentService.delete(comment.getId());
-        }
-
-        User seller = findItem.getSeller();
-        seller.getItems().remove(findItem);
 
         itemRepository.delete(findItem);
     }
