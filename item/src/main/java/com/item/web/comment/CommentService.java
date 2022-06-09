@@ -31,8 +31,6 @@ public class CommentService {
                 .orElseThrow(() -> new UsernameNotFoundException("Not Fount username=" + username));
 
         Comment comment = saveForm.toEntity(findUser, findItem);
-        findItem.addComment(comment);
-        findUser.addComment(comment);
 
         return commentRepository.save(comment);
     }
@@ -67,12 +65,6 @@ public class CommentService {
     public void delete(Long commentId) {
         Comment findComment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NoSuchElementException("Not Fount commentId=" + commentId));
-
-        Item item = findComment.getItem();
-        User user = findComment.getUser();
-
-        user.getComments().remove(findComment);
-        item.getComments().remove(findComment);
 
         commentRepository.delete(findComment);
     }

@@ -2,6 +2,7 @@ package com.item.web.comment;
 
 import com.item.domain.comment.Comment;
 import com.item.domain.item.Item;
+import com.item.web.item.ItemResponse;
 import com.item.web.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,7 +55,7 @@ public class CommentController {
         Comment findComment = commentService.findById(commentId);
 
         if (!findComment.getUser().getUsername().equals(principal.getName())) {
-            Item findItem = itemService.findById(itemId);
+            ItemResponse findItem = itemService.findById(itemId);
             model.addAttribute("item", findItem);
             model.addAttribute("error", "본인이 작성한 댓글만 수정 가능합니다.");
             return "item/item";
