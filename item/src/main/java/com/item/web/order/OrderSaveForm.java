@@ -13,7 +13,7 @@ public class OrderSaveForm {
     @Positive
     private Integer quantity;
 
-    public Order toEntity(Item item, User buyer) {
-        return new Order(item, buyer, quantity);
+    public Order toEntity(Item item, User seller, User buyer) {
+        return new Order(item, seller, buyer, quantity);
     }
 }

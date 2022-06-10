@@ -18,12 +18,16 @@ public class Order {
     private Item item;
 
     @ManyToOne
+    private User seller;
+
+    @ManyToOne
     private User buyer;
 
     private Integer quantity;
 
-    public Order(Item item, User buyer, Integer quantity) {
+    public Order(Item item, User seller, User buyer, Integer quantity) {
         this.item = item;
+        this.seller = seller;
         this.buyer = buyer;
         this.quantity = quantity;
     }

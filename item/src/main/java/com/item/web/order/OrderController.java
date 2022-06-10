@@ -1,6 +1,7 @@
 package com.item.web.order;
 
 import com.item.domain.item.Item;
+import com.item.web.item.ItemResponse;
 import com.item.web.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class OrderController {
 
     @GetMapping("/add")
     public String addOrderForm(@PathVariable Long itemId, Model model) {
-        Item findItem = itemService.findById(itemId);
+        ItemResponse findItem = itemService.findById(itemId);
         model.addAttribute("item", findItem);
         model.addAttribute("order", new OrderSaveForm());
         return "order/addOrderForm";
@@ -36,7 +37,7 @@ public class OrderController {
                            Principal principal,
                            Model model
     ) {
-        Item findItem = itemService.findById(itemId);
+        ItemResponse findItem = itemService.findById(itemId);
         model.addAttribute("item", findItem);
 
         validate(findItem, saveForm, bindingResult);
@@ -45,12 +46,12 @@ public class OrderController {
             return "order/addOrderForm";
         }
 
-        orderService.save(findItem, principal.getName(), saveForm);
+        orderService.save(itemId, principal.getName(), saveForm);
 
         return "redirect:/items/{itemId}";
     }
 
-    private void validate(Item item, OrderSaveForm saveForm, BindingResult bindingResult) {
+    private void validate(ItemResponse item, OrderSaveForm saveForm, BindingResult bindingResult) {
         if (item.getItemName() != null && saveForm.getQuantity() != null) {
             if (item.getQuantity() < saveForm.getQuantity()) {
                 bindingResult.reject("globalError", "상품의 수량이 부족합니다.");
