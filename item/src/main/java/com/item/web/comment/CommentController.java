@@ -1,7 +1,6 @@
 package com.item.web.comment;
 
 import com.item.domain.comment.Comment;
-import com.item.domain.item.Item;
 import com.item.web.item.ItemResponse;
 import com.item.web.item.ItemService;
 import lombok.RequiredArgsConstructor;

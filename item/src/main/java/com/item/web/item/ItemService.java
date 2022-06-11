@@ -1,7 +1,6 @@
 package com.item.web.item;
 
 import com.item.domain.comment.Comment;
-import com.item.domain.comment.CommentRepository;
 import com.item.domain.item.Item;
 import com.item.domain.item.ItemRepository;
 import com.item.domain.user.User;
