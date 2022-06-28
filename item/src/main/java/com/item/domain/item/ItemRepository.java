@@ -1,27 +1,24 @@
 package com.item.domain.item;
 
+import com.item.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
+import org.springframework.data.querydsl.binding.QuerydslBindings;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface ItemRepository extends JpaRepository<Item, Long> {
-
+public interface ItemRepository extends
+        JpaRepository<Item, Long>,
+        ItemRepositoryCustom,
+        QuerydslPredicateExecutor<Item>,
+        QuerydslBinderCustomizer<QItem>
+{
     @Override
-    Optional<Item> findById(Long itemId);
+    default void customize(QuerydslBindings bindings, QItem root) {
+        bindings.excludeUnlistedProperties(true);
+        bindings.including(root.itemName, root.price, root.quantity);
+    }
 
-    @Override
-    List<Item> findAll();
-
-    @Override
-    <S extends Item> S save(S Item);
-
-    @Override
-    void delete(Item item);
-
-    @Override
-    void deleteById(Long itemId);
-
-    @Override
-    void deleteAll();
+    List<Item> findBySeller(User user);
 }
