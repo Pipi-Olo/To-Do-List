@@ -12,19 +12,9 @@ import javax.persistence.*;
 @Entity @EntityListeners(AuditingEntityListener.class)
 public class Item extends BaseEntity {
 
-    @Id @GeneratedValue
-    @Column(name = "item_id")
-    private Long id;
-
     private String name;
     private Integer price;
     private Integer stockQuantity;
-
-    public Item(String name, Integer price, Integer stockQuantity) {
-        this.name = name;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-    }
 
     public void addStock(int quantity) {
         this.stockQuantity += quantity;

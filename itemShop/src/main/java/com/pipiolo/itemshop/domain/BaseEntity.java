@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @MappedSuperclass @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
+    @Id @GeneratedValue
+    private Long id;
+
     @CreatedDate
     private LocalDateTime createdAt;
 

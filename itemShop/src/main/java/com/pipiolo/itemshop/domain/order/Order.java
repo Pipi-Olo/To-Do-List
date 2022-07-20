@@ -13,20 +13,14 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @NoArgsConstructor @AllArgsConstructor
+@Getter @NoArgsConstructor
 @Entity @Table(name = "orders") @EntityListeners(AuditingEntityListener.class)
 public class Order extends BaseEntity {
 
-    @Id @GeneratedValue
-    @Column(name = "order_id")
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User buyer;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
