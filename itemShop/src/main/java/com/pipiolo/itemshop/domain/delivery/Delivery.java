@@ -30,4 +30,5 @@ public class Delivery extends BaseEntity {
         this.address = address;
         this.status = status;
     }
+
 }

@@ -28,9 +28,8 @@ public class OrderItem extends BaseEntity {
 
     private int quantity;
 
-    public OrderItem(Item item, Order order, int quantity) {
+    public OrderItem(Item item, int quantity) {
         this.item = item;
-//        this.order = order;
         this.quantity = quantity;
 
         this.item.removeStock(quantity);

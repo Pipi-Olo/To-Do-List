@@ -37,6 +37,14 @@ public class Order extends BaseEntity {
         this.delivery = delivery;
     }
 
+    public Order(User buyer, Delivery delivery, List<OrderItem> orderItems) {
+        this.buyer = buyer;
+        this.delivery = delivery;
+        for (OrderItem orderItem : orderItems) {
+            addOrderItem(orderItem);
+        }
+    }
+
     public void addOrderItem(OrderItem orderItem) {
         this.orderItems.add(orderItem);
         orderItem.setOrder(this);

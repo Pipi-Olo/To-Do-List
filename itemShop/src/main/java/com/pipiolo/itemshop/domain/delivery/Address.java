@@ -13,4 +13,9 @@ public class Address {
     private String city;
     private String street;
     private String zipcode;
+
+    @Override
+    public String toString() {
+        return this.getCity() + " " + this.getStreet() + " " + this.getZipcode();
+    }
 }
