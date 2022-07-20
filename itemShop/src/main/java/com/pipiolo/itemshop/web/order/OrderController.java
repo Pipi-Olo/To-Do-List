@@ -21,7 +21,7 @@ public class OrderController {
 
     @GetMapping
     public String orders(Principal principal, Model model) {
-        List<OrderResponse> orders = orderService.findAllByUsername("userA");
+        List<OrderResponse> orders = orderService.findAllByUsername(principal.getName());
         model.addAttribute("orders", orders);
         return "order/orders";
     }
@@ -47,7 +47,7 @@ public class OrderController {
                            Principal principal,
                            RedirectAttributes redirectAttributes
     ) {
-        Long orderId = orderService.save(orderSaveForm, "userA");
+        Long orderId = orderService.save(orderSaveForm, principal.getName());
         OrderDetailResponse findOrder = orderService.findById(orderId);
 
         redirectAttributes.addAttribute("orderId", orderId);

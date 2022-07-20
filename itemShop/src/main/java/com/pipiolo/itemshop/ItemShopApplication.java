@@ -1,8 +1,7 @@
 package com.pipiolo.itemshop;
 
-import com.pipiolo.itemshop.domain.item.ItemRepository;
-import com.pipiolo.itemshop.domain.order.OrderRepository;
-import com.pipiolo.itemshop.domain.user.UserRepository;
+import com.pipiolo.itemshop.web.item.ItemService;
+import com.pipiolo.itemshop.web.user.UserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -18,9 +17,9 @@ public class ItemShopApplication {
     @Bean
     @Profile("local")
     public TestDataInit testDataInit(
-            UserRepository userRepository,
-            ItemRepository itemRepository
+            UserService userService,
+            ItemService itemService
     ) {
-        return new TestDataInit(userRepository, itemRepository);
+        return new TestDataInit(userService, itemService);
     }
 }

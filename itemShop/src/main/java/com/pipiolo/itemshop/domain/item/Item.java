@@ -4,12 +4,11 @@ import com.pipiolo.itemshop.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
 @Getter @NoArgsConstructor @AllArgsConstructor
-@Entity @EntityListeners(AuditingEntityListener.class)
+@Entity
 public class Item extends BaseEntity {
 
     private String name;

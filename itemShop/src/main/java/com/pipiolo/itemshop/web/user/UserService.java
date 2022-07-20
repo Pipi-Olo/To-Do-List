@@ -3,6 +3,7 @@ package com.pipiolo.itemshop.web.user;
 import com.pipiolo.itemshop.domain.user.User;
 import com.pipiolo.itemshop.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class UserService {
 
     @Transactional
     public void save(UserSaveForm saveForm) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        saveForm.setPassword(encoder.encode(saveForm.getPassword()));
         userRepository.save(saveForm.toEntity());
     }
 
