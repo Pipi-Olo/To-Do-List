@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -29,15 +30,15 @@ public class ItemService {
         return new ItemResponse(findItem);
     }
 
+    public List<ItemResponse> findAll(ItemSearchCond searchCond) {
+        return itemRepository.findItemsBySearchParams(searchCond).stream()
+                .map(ItemResponse::new)
+                .collect(toList());
+    }
+
     public List<ItemResponse> findAll() {
         return itemRepository.findAll().stream()
                 .map(ItemResponse::new)
-                .collect(Collectors.toList());
-    }
-
-    public List<ItemResponse> findAll(ItemSearchCond searchCond) {
-        return itemRepository.findAll().stream()
-                .map(ItemResponse::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

@@ -18,14 +18,14 @@
       <thead>
       <tr>
         <th>주문 번호</th>
-        <th>배달 상태</th>
+        <th>상태</th>
         <th>주소</th>
       </tr>
       </thead>
       <tbody>
       <tr th:each="order : ${orders}">
         <td><a th:href="@{|/orders/${order.id}|}" th:text="${order.id}">주문 번호</a></td>
-        <td><a th:text="${order.deliveryStatus}">배달 상태</a></td>
+        <td><a th:text="${order.deliveryStatus}">상태</a></td>
         <td><a th:text="${order.address}">주소</a></td>
       </tr>
       </tbody>

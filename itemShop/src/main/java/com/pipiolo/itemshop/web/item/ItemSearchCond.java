@@ -1,6 +1,5 @@
 package com.pipiolo.itemshop.web.item;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
