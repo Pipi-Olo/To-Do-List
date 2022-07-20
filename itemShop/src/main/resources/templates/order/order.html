@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="../css/bootstrap.min.css" rel="stylesheet">
+  <style>
+      .container {
+          max-width: 560px;
+      }
+      .field-error {
+          border-color: #dc3545;
+          color: #dc3545;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="py-5 text-center">
+    <h2>주문 상세</h2>
+  </div>
+
+  <h2 th:if="${param.status}" th:text="'저장 완료'"></h2>
+  <h3><a class="field-error" th:text="${error}"></a></h3>
+
+  <hr class="my-4">
+
+  <div>
+    <label for="username">구매자</label>
+    <input type="text" id="username" name="username" class="form-control" th:value="${order.username}" readonly>
+  </div>
+  <div>
+    <label for="address">주소</label>
+    <input type="text" id="address" name="address" class="form-control" th:value="${order.address}" readonly>
+  </div>
+  <div th:each="orderItem : ${order.orderItems}">
+    <div>
+      <label for="itemName">주문 상품명</label>
+      <input type="text" id="itemName" name="itemName" class="form-control" th:value="${orderItem.itemName}" readonly>
+    </div>
+
+    <div>
+      <label for="price">주문 상품 가격</label>
+      <input type="text" id="price" name="price" class="form-control" th:value="${orderItem.price}" readonly>
+    </div>
+
+    <div>
+      <label for="quantity">주문 상품 수량</label>
+      <input type="text" id="quantity" name="quantity" class="form-control" th:value="${orderItem.quantity}" readonly>
+    </div>
+  </div>
+
+  <hr class="my-4">
+
+  <div class="row">
+    <div class="col">
+      <button class="w-100 btn btn-secondary btn-lg"
+              th:onclick="|location.href='@{/orders}'|"
+              type="button">목록으로</button>
+    </div>
+  </div>
+
+</div> <!-- /container -->
+
+</body>
+</html>
