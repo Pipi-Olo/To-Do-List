@@ -1,37 +1,45 @@
 package com.pipiolo.itemshop;
 
+import com.pipiolo.itemshop.domain.delivery.Address;
+import com.pipiolo.itemshop.domain.delivery.Delivery;
+import com.pipiolo.itemshop.domain.delivery.DeliveryStatus;
 import com.pipiolo.itemshop.domain.item.Item;
 import com.pipiolo.itemshop.domain.item.ItemRepository;
+import com.pipiolo.itemshop.domain.order.Order;
+import com.pipiolo.itemshop.domain.order.OrderRepository;
+import com.pipiolo.itemshop.domain.orderItem.OrderItem;
 import com.pipiolo.itemshop.domain.user.User;
 import com.pipiolo.itemshop.domain.user.UserRepository;
-import com.pipiolo.itemshop.web.item.ItemSaveForm;
-import com.pipiolo.itemshop.web.item.ItemService;
-import com.pipiolo.itemshop.web.user.UserSaveForm;
-import com.pipiolo.itemshop.web.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
+@Transactional
 public class TestDataInit {
 
-    private final UserService userService;
-    private final ItemService itemService;
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
+    private final OrderRepository orderRepository;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @EventListener(ApplicationReadyEvent.class)
     public void initData() {
-        saveUser(new UserSaveForm("userA", "test"));
-        saveUser(new UserSaveForm("userB", "test"));
+        User userA = userRepository.save(new User("userA", encoder.encode("test")));
 
-        saveItem(new ItemSaveForm("itemA", 10000, 10));
-        saveItem(new ItemSaveForm("itemB", 20000, 20));
+        Item itemA = itemRepository.save(new Item("itemA", 10000, 100));
+        Item itemB = itemRepository.save(new Item("itemB", 20000, 200));
+
+        OrderItem orderItemA = new OrderItem(itemA, 10);
+        OrderItem orderItemB = new OrderItem(itemB, 10);
+
+        Delivery delivery = new Delivery(new Address("test", "test", "123456"), DeliveryStatus.READY);
+
+        orderRepository.save(new Order(userA, delivery, List.of(orderItemA, orderItemB)));
     }
 
-    private void saveUser(UserSaveForm saveForm) {
-        userService.save(saveForm);
-    }
-
-    private void saveItem(ItemSaveForm saveForm) {
-        itemService.save(saveForm);
-    }
 }
