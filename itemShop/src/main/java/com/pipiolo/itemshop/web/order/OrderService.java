@@ -48,9 +48,7 @@ public class OrderService {
     }
 
     public OrderDetailResponse findById(Long orderId) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new NoSuchElementException("Can Not Find orderId=" + orderId));
-
+        Order order = orderRepository.findOneById(orderId);
         return new OrderDetailResponse(order);
     }
 

@@ -33,13 +33,15 @@ public class TestDataInit {
 
         Item itemA = itemRepository.save(new Item("itemA", 10000, 100));
         Item itemB = itemRepository.save(new Item("itemB", 20000, 200));
+        Item itemC = itemRepository.save(new Item("itemC", 30000, 300));
 
         OrderItem orderItemA = new OrderItem(itemA, 10);
         OrderItem orderItemB = new OrderItem(itemB, 10);
+        OrderItem orderItemC = new OrderItem(itemC, 10);
 
         Delivery delivery = new Delivery(new Address("test", "test", "123456"), DeliveryStatus.READY);
 
-        orderRepository.save(new Order(userA, delivery, List.of(orderItemA, orderItemB)));
+        orderRepository.save(new Order(userA, delivery, List.of(orderItemA, orderItemB, orderItemC)));
     }
 
 }
