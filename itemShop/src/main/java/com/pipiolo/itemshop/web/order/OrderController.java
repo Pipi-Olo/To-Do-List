@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.security.Principal;
 import java.util.List;
 
+import static com.pipiolo.itemshop.web.order.OrderDetailResponse.*;
+
 @RequiredArgsConstructor
 @RequestMapping("/orders")
 @Controller
@@ -31,7 +33,15 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public String order(@PathVariable Long orderId, Model model) {
         OrderDetailResponse findOrder = orderService.findById(orderId);
+
+        int totalPrice = 0;
+        List<OrderItemResponse> orderItems = findOrder.getOrderItems();
+        for (OrderItemResponse orderItem : orderItems) {
+            totalPrice += orderItem.getPrice() * orderItem.getQuantity();
+        }
+
         model.addAttribute("order", findOrder);
+        model.addAttribute("totalPrice", totalPrice);
         return "order/order";
     }
 

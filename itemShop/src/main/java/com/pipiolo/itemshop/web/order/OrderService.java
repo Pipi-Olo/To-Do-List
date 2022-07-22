@@ -26,6 +26,8 @@ public class OrderService {
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
 
+
+    // TODO: itemID 를 List 로 받아서 orderItem 을 List 로 생성하는 로직으로 변경 필요 + addOrderForm, orderSaveForm 도 같이 변경 필요
     @Transactional
     public Long save(OrderSaveForm saveForm, String username) {
         User buyer = userRepository.findByUsername(username)

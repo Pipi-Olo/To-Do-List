@@ -36,6 +36,7 @@
     <input type="text" id="address" name="address" class="form-control" th:value="${order.address}" readonly>
   </div>
   <div th:each="orderItem : ${order.orderItems}">
+    <hr class="my-2">
     <div>
       <label for="itemName">주문 상품명</label>
       <input type="text" id="itemName" name="itemName" class="form-control" th:value="${orderItem.itemName}" readonly>
@@ -50,6 +51,11 @@
       <label for="quantity">주문 상품 수량</label>
       <input type="text" id="quantity" name="quantity" class="form-control" th:value="${orderItem.quantity}" readonly>
     </div>
+  </div>
+  <hr class="my-4">
+  <div>
+    <label for="totalPrice">총 가격</label>
+    <input type="text" id="totalPrice" name="address" class="form-control" th:value="${totalPrice}" readonly>
   </div>
 
   <hr class="my-4">

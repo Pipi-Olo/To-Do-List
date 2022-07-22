@@ -10,8 +10,10 @@ import javax.validation.constraints.*;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class OrderSaveForm {
 
-    @Positive
+    @PositiveOrZero
     private Long itemId;
+
+//    private List<Long> itemIds = new ArrayList<>();
 
     @Positive(message = "수량은 0개 이상 숫자만 가능합니다.")
     private Integer quantity;
@@ -22,7 +24,7 @@ public class OrderSaveForm {
     @NotBlank
     private String street;
 
-    @Pattern(regexp = "[0-9]")
+    @Pattern(regexp = "^[0-9]*$")
     private String zipcode;
 
     public Address getAddress() {
