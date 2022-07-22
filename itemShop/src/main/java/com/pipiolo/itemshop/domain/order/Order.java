@@ -4,17 +4,15 @@ import com.pipiolo.itemshop.domain.BaseEntity;
 import com.pipiolo.itemshop.domain.delivery.Delivery;
 import com.pipiolo.itemshop.domain.orderItem.OrderItem;
 import com.pipiolo.itemshop.domain.user.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @NoArgsConstructor
-@Entity @Table(name = "orders") @EntityListeners(AuditingEntityListener.class)
+@Entity @Table(name = "orders")
 public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

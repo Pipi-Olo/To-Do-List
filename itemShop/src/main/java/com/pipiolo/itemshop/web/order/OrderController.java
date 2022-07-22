@@ -5,6 +5,8 @@ import com.pipiolo.itemshop.web.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,7 +36,7 @@ public class OrderController {
     }
 
     @GetMapping("/add")
-    public String addOrder(Model model) {
+    public String addOrderForm(Model model) {
         List<ItemResponse> items = itemService.findAll();
 
         model.addAttribute("items", items);
@@ -43,12 +45,16 @@ public class OrderController {
     }
 
     @PostMapping("/add")
-    public String addOrder(@ModelAttribute("order") OrderSaveForm orderSaveForm,
+    public String addOrder(@Validated @ModelAttribute("order") OrderSaveForm orderSaveForm,
+                           BindingResult bindingResult,
                            Principal principal,
                            RedirectAttributes redirectAttributes
     ) {
+        if (bindingResult.hasErrors()) {
+            return "order/addOrderForm";
+        }
+
         Long orderId = orderService.save(orderSaveForm, principal.getName());
-        OrderDetailResponse findOrder = orderService.findById(orderId);
 
         redirectAttributes.addAttribute("orderId", orderId);
         return "redirect:/orders/{orderId}";
