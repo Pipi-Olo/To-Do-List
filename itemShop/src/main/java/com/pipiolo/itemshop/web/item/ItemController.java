@@ -1,5 +1,7 @@
 package com.pipiolo.itemshop.web.item;
 
+import com.pipiolo.itemshop.web.comment.CommentResponse;
+import com.pipiolo.itemshop.web.comment.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final CommentService commentService;
 
     @GetMapping
     public String items(@ModelAttribute("itemSearch") ItemSearchCond searchCond, Model model) {
@@ -24,7 +27,10 @@ public class ItemController {
     @GetMapping("/{itemId}")
     public String item(@PathVariable Long itemId, Model model) {
         ItemResponse findItem = itemService.findById(itemId);
+        List<CommentResponse> comments = commentService.findAll(itemId);
+
         model.addAttribute("item", findItem);
+        model.addAttribute("comments", comments);
         return "item/item";
     }
 

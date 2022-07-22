@@ -1,5 +1,6 @@
 package com.pipiolo.itemshop;
 
+import com.pipiolo.itemshop.domain.comment.CommentRepository;
 import com.pipiolo.itemshop.domain.item.ItemRepository;
 import com.pipiolo.itemshop.domain.order.OrderRepository;
 import com.pipiolo.itemshop.domain.user.UserRepository;
@@ -20,8 +21,9 @@ public class ItemShopApplication {
     public TestDataInit testDataInit(
             UserRepository userRepository,
             ItemRepository itemRepository,
-            OrderRepository orderRepository
+            OrderRepository orderRepository,
+            CommentRepository commentRepository
     ) {
-        return new TestDataInit(userRepository, itemRepository, orderRepository);
+        return new TestDataInit(userRepository, itemRepository, orderRepository, commentRepository);
     }
 }

@@ -41,6 +41,30 @@
 
   <hr class="my-4">
 
+  <div th:if="${not #lists.isEmpty(comments)}">
+    <div class="text-center">
+      <h4>상품평</h4>
+    </div>
+
+    <table  class="table table-bordered">
+      <thead>
+      <tr>
+        <th>메세지</th>
+        <th>유저 아이디</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="comment : ${comments}">
+        <td><a th:text="${comment.message}">Message</a></td>
+        <td><a th:text="${comment.username}">By</a></td>
+      </tr>
+      </tbody>
+    </table>
+
+    <hr class="my-4">
+
+  </div>
+
   <div class="row">
     <!--    <div class="col">-->
     <!--      <button class="btn btn-primary "-->
@@ -48,6 +72,11 @@
     <!--              th:onclick="|location.href='@{/items/{itemId}/delete(itemId=${item.id})}'|"-->
     <!--              type="button">상품 삭제</button>-->
     <!--    </div>-->
+    <div class="col">
+      <button class="w-100 btn btn-primary btn-lg"
+              th:onclick="|location.href='@{/items/{itemId}/comments/add(itemId=${item.id})}'|"
+              type="button">상품평 남기기</button>
+    </div>
     <div class="col">
       <button class="w-100 btn btn-secondary btn-lg"
               th:onclick="|location.href='@{/items}'|"
